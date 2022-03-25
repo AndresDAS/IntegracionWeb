@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="functions.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=0.8">
+	</head>
+	<body>
+		<div id="content">
+			<h1>Menu Principal</h1>
+			<p class="small">Por favor escriba el nombre de la red</p>
+			<br />
+			<label for="ssid">SSID:</label>
+			<input type="text" id="ssid" minlength="1" maxlength="32">
+			<br />
+			<br />
+			<label for="password">Contrase&ntilde;a:</label>
+			<input type="text" id="password" minlength="0" maxlength="32">
+			<p class="small">Dejar en blanco si la red no tiene contrase&ntilde;a</p>
+			<br />
+			<button class="warnBtn" onclick="saveSettings()">Guardar y Reiniciar</button><p class="small" id="saved"></p>
+			
+			<br />
+			
+		</div>
+    </body>
+
+	<script>
+		var ssid = document.getElementById('ssid');
+		var password = document.getElementById('password');
+			
+		
+		function restartESP(){
+			getResponse("restartESP.json", function(responseText){
+				
+			});
+		}
+
+		function saveSettings(){
+			saved.innerHTML = "Guardando...";
+			var url = "settingsSave.json";
+			url += "?ssid="+ssid.value;
+			url += "&password="+password.value;
+			
+			getResponse(url, function(responseText){
+				if(responseText == "true"){
+					saved.innerHTML = "Guardado...reiniciando";
+					restartESP();
+				}
+				else alert("error");
+			});
+		}
+	</script>
+
+</html>
